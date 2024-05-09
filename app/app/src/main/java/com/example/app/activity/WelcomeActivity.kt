@@ -24,7 +24,7 @@ class WelcomeActivity : AppCompatActivity() {
             insets
         }
 
-        binding.btnSignup.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
+        binding.btnRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
         binding.btnLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
     }
 }
