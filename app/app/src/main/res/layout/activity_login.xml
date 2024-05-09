@@ -5,13 +5,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.RegisterActivity">
+    tools:context=".activity.LoginActivity">
 
     <ImageView
         android:id="@+id/iv"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/image_register"
+        android:src="@drawable/image_login"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="100dp"/>
 
@@ -19,7 +19,7 @@
         android:id="@+id/tv_tittle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_register_page"
+        android:text="@string/title_login_page"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -28,39 +28,22 @@
         android:layout_below="@id/iv"/>
 
     <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/tv_tittle"
-        android:text="@string/name"
-        android:textColor="@color/black" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_name"
+        android:id="@+id/tv_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_name"
+        android:text="@string/message_login_page"
+        android:layout_below="@+id/tv_tittle"
         android:layout_marginHorizontal="32dp"
-        app:startIconDrawable="@drawable/ic_baseline_person_24">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/tv_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/til_name"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/tv_message"
         android:text="@string/email"
         android:textColor="@color/black" />
 
@@ -113,7 +96,7 @@
         android:id="@+id/btn_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/register"
+        android:text="@string/login"
         android:backgroundTint="@color/navy"
         android:layout_marginHorizontal="32dp"
         android:layout_below="@id/til_password"
