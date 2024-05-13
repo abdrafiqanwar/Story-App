@@ -3,15 +3,21 @@ package com.example.app.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.app.R
 import com.example.app.databinding.ActivityMainBinding
+import com.example.app.viewmodel.MainViewModel
+import com.example.app.viewmodel.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val viewModel by viewModels<MainViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +30,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        startActivity(Intent(this, WelcomeActivity::class.java))
+        viewModel.getSession().observe(this) {
+            if (!it.isLogin) {
+                startActivity(Intent(this, WelcomeActivity::class.java))
+            }
+        }
+
+        binding.btnLogout.setOnClickListener {
+            viewModel.logout()
+        }
     }
 }
