@@ -32,12 +32,16 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getSession().observe(this) {
             if (!it.isLogin) {
-                startActivity(Intent(this, WelcomeActivity::class.java))
+                val intent = Intent(this, WelcomeActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+                startActivity(intent)
+                finish()
             }
         }
 
         binding.btnLogout.setOnClickListener {
             viewModel.logout()
+            finish()
         }
     }
 }
