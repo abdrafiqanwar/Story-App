@@ -7,9 +7,5 @@ import kotlinx.coroutines.launch
 import okhttp3.internal.wait
 
 class RegisterViewModel(private val repository: UserRepository) : ViewModel(){
-    fun register(name: String, email: String, password: String) {
-        viewModelScope.launch {
-            repository.register(name, email, password)
-        }
-    }
+    fun register(name: String, email: String, password: String) = repository.register(name, email, password)
 }
