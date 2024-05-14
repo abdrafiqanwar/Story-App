@@ -41,7 +41,7 @@ class RegisterActivity : AppCompatActivity() {
                 viewModel.register(name, email, password)
             }
 
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, WelcomeActivity::class.java))
             finish()
         }
     }
