@@ -3,21 +3,24 @@ package com.example.app.pref
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.app.data.response.ErrorResponse
+import com.example.app.data.response.ListStoryItem
 import com.example.app.data.response.LoginResponse
 import com.example.app.data.response.LoginResult
 import com.example.app.data.response.RegisterResponse
+import com.example.app.data.response.StoryResponse
 import com.example.app.data.retrofit.ApiConfig
 import com.example.app.data.retrofit.ApiService
 import com.example.app.di.Result
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
 class UserRepository private constructor(
-    private val apiService: ApiService,
+    private var apiService: ApiService,
     private val userPreference: UserPreference
 ) {
 
@@ -65,6 +68,24 @@ class UserRepository private constructor(
 
     suspend fun logout() {
         userPreference.logout()
+    }
+
+    fun getAllStories(): LiveData<Result<List<ListStoryItem>>> = liveData {
+        emit(Result.Loading)
+
+        try {
+            apiService = ApiConfig.getApiService(getSession().first().token)
+            val response = apiService.getStories()
+            val story = response.listStory
+
+            emit(Result.Success(story))
+        } catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+            val errorMessage = errorBody.message
+
+            emit(Result.Error(errorMessage.toString()))
+        }
     }
 
     companion object {

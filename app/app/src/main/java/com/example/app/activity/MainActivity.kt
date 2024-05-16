@@ -2,13 +2,18 @@ package com.example.app.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app.R
+import com.example.app.adapter.StoryAdapter
 import com.example.app.databinding.ActivityMainBinding
+import com.example.app.di.Result
 import com.example.app.viewmodel.MainViewModel
 import com.example.app.viewmodel.ViewModelFactory
 
@@ -30,6 +35,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        binding.rvStory.layoutManager = LinearLayoutManager(this)
+
         viewModel.getSession().observe(this) {
             if (!it.isLogin) {
                 val intent = Intent(this, WelcomeActivity::class.java)
@@ -42,6 +49,35 @@ class MainActivity : AppCompatActivity() {
         binding.btnLogout.setOnClickListener {
             viewModel.logout()
             finish()
+        }
+
+        viewModel.getAllStories().observe(this){
+            if (it != null) {
+                when(it) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+
+                        val response = it.data
+                        val storyAdapter = StoryAdapter(response)
+                        binding.rvStory.adapter = storyAdapter
+                    }
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
+
+                        AlertDialog.Builder(this).apply {
+                            setTitle("Terjadi kesalahan")
+                            setPositiveButton("Ok") {dialog, which ->
+                                dialog.dismiss()
+                            }
+                            create()
+                            show()
+                        }
+                    }
+                }
+            }
         }
     }
 }
