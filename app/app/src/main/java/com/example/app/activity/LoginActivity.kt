@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                             binding.progressBar.visibility = View.GONE
 
                             AlertDialog.Builder(this).apply {
-                                setTitle("Terjadi kesalahan")
+                                setTitle(it.error)
                                 setPositiveButton("Ok") {dialog, which ->
                                     dialog.dismiss()
                                 }

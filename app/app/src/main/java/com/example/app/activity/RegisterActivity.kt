@@ -54,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
                             binding.progressBar.visibility = View.GONE
 
                             AlertDialog.Builder(this).apply {
-                                setTitle("Akun Berhasil Dibuat")
+                                setTitle(it.data.message)
                                 setPositiveButton("Login") { _, _ ->
                                     val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -69,7 +69,7 @@ class RegisterActivity : AppCompatActivity() {
                             binding.progressBar.visibility = View.GONE
 
                             AlertDialog.Builder(this).apply {
-                                setTitle("Terjadi kesalahan")
+                                setTitle(it.error)
                                 setPositiveButton("Ok") {dialog, which ->
                                     dialog.dismiss()
                                 }
