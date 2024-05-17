@@ -84,6 +84,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.fab.setOnClickListener { startActivity(Intent(this, AddStoryActivity::class.java)) }
     }
 
     private fun goToDetail(data: ListStoryItem) {
