@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app.R
 import com.example.app.adapter.StoryAdapter
+import com.example.app.data.response.ListStoryItem
 import com.example.app.databinding.ActivityMainBinding
 import com.example.app.di.Result
 import com.example.app.viewmodel.MainViewModel
@@ -34,8 +35,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        binding.rvStory.layoutManager = LinearLayoutManager(this)
 
         viewModel.getSession().observe(this) {
             if (!it.isLogin) {
@@ -61,8 +60,16 @@ class MainActivity : AppCompatActivity() {
                         binding.progressBar.visibility = View.GONE
 
                         val response = it.data
+
+                        binding.rvStory.layoutManager = LinearLayoutManager(this)
                         val storyAdapter = StoryAdapter(response)
                         binding.rvStory.adapter = storyAdapter
+
+                        storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
+                            override fun onItemClicked(data: ListStoryItem) {
+                                goToDetail(data)
+                            }
+                        })
                     }
                     is Result.Error -> {
                         binding.progressBar.visibility = View.GONE
@@ -79,5 +86,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun goToDetail(data: ListStoryItem) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("data", data)
+        startActivity(intent)
     }
 }

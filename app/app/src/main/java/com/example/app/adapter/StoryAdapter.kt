@@ -8,6 +8,13 @@ import com.example.app.data.response.ListStoryItem
 import com.example.app.databinding.ItemStoryBinding
 
 class StoryAdapter(private val listStory: List<ListStoryItem>): RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
+
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
     class ViewHolder(var binding: ItemStoryBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,5 +29,13 @@ class StoryAdapter(private val listStory: List<ListStoryItem>): RecyclerView.Ada
         Glide.with(holder.itemView.context).load(photoUrl).into(holder.binding.ivImage)
         holder.binding.tvName.text = name
         holder.binding.tvDesc.text = description
+
+        holder.itemView.setOnClickListener{
+            onItemClickCallback.onItemClicked(listStory[holder.adapterPosition])
+        }
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: ListStoryItem)
     }
 }
