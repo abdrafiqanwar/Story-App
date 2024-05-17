@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -91,6 +92,9 @@ class MainActivity : AppCompatActivity() {
     private fun goToDetail(data: ListStoryItem) {
         val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra("data", data)
-        startActivity(intent)
+
+        val optionsCompat: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
+
+        startActivity(intent, optionsCompat.toBundle())
     }
 }
