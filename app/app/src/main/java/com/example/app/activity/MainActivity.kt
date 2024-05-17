@@ -2,6 +2,8 @@ package com.example.app.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -44,11 +46,6 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-        }
-
-        binding.btnLogout.setOnClickListener {
-            viewModel.logout()
-            finish()
         }
 
         viewModel.getAllStories().observe(this){
@@ -96,5 +93,20 @@ class MainActivity : AppCompatActivity() {
         val optionsCompat: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
 
         startActivity(intent, optionsCompat.toBundle())
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.btn_logout -> {
+                viewModel.logout()
+                finish()
+            }
+        }
+        return true
     }
 }
