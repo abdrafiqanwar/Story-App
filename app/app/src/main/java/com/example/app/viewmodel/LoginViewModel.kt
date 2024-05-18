@@ -2,8 +2,6 @@ package com.example.app.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.app.data.retrofit.ApiConfig
-import com.example.app.data.retrofit.ApiService
 import com.example.app.pref.UserModel
 import com.example.app.pref.UserRepository
 import kotlinx.coroutines.launch

@@ -80,7 +80,7 @@ class UploadStoryActivity : AppCompatActivity() {
 
                         val response = it.data
                         Toast.makeText(this, response.message.toString(), Toast.LENGTH_LONG).show()
-//                        finish()
+
                         val intent = Intent(this, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                         startActivity(intent)

@@ -9,13 +9,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
 import com.example.app.R
 import com.example.app.databinding.ActivityRegisterBinding
 import com.example.app.di.Result
 import com.example.app.viewmodel.RegisterViewModel
 import com.example.app.viewmodel.ViewModelFactory
-import kotlinx.coroutines.launch
 
 class RegisterActivity : AppCompatActivity() {
 
