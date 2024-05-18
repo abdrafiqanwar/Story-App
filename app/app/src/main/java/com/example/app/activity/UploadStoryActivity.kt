@@ -1,23 +1,34 @@
 package com.example.app.activity
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.app.R
 import com.example.app.databinding.ActivityAddStoryBinding
+import com.example.app.di.Result
 import com.example.app.di.getImageUri
+import com.example.app.di.uriToFile
+import com.example.app.viewmodel.UploadStoryViewModel
+import com.example.app.viewmodel.ViewModelFactory
 
-class AddStoryActivity : AppCompatActivity() {
+class UploadStoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddStoryBinding
-
     private var currentImageUri: Uri? = null
+    private val viewModel by viewModels<UploadStoryViewModel>() {
+        ViewModelFactory.getInstance(this)
+    }
 
     private val launcherGallery = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
@@ -51,6 +62,44 @@ class AddStoryActivity : AppCompatActivity() {
 
         binding.btnGallery.setOnClickListener { startGallery() }
         binding.btnCamera.setOnClickListener { startCamera() }
+        binding.btnUpload.setOnClickListener { uploadStory()}
+    }
+
+    private fun uploadStory() {
+        val desc = binding.etDesc.text.toString()
+        val image = currentImageUri?.let { uriToFile(it, this) }
+
+        viewModel.uploadStory(desc, image).observe(this) {
+            if (it != null) {
+                when (it) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
+
+                        val response = it.data
+                        Toast.makeText(this, response.message.toString(), Toast.LENGTH_LONG).show()
+//                        finish()
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                    }
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.GONE
+
+                        AlertDialog.Builder(this).apply {
+                            setTitle(it.error)
+                            setPositiveButton("Ok") {dialog, which ->
+                                dialog.dismiss()
+                            }
+                            create()
+                            show()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun startGallery() {

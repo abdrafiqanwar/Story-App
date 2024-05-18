@@ -20,6 +20,9 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(UploadStoryViewModel::class.java) -> {
+                UploadStoryViewModel(repository) as T
+            }
             else -> throw IllegalArgumentException("Uknown ViewModel class: " + modelClass.name)
         }
     }

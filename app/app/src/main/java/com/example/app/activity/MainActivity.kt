@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                         binding.progressBar.visibility = View.GONE
 
                         AlertDialog.Builder(this).apply {
-                            setTitle("Terjadi kesalahan")
+                            setTitle(it.error)
                             setPositiveButton("Ok") {dialog, which ->
                                 dialog.dismiss()
                             }
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.fab.setOnClickListener { startActivity(Intent(this, AddStoryActivity::class.java)) }
+        binding.fab.setOnClickListener { startActivity(Intent(this, UploadStoryActivity::class.java)) }
     }
 
     private fun goToDetail(data: ListStoryItem) {
