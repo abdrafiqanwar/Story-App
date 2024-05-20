@@ -108,6 +108,9 @@ class MainActivity : AppCompatActivity() {
                 viewModel.logout()
                 finish()
             }
+            R.id.btn_map -> {
+                startActivity(Intent(this, MapsActivity::class.java))
+            }
         }
         return true
     }
