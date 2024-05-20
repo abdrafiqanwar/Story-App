@@ -116,6 +116,24 @@ class UserRepository private constructor(
         }
     }
 
+    fun getStoriesWithLocation(): LiveData<Result<List<ListStoryItem>>> = liveData {
+        emit(Result.Loading)
+
+        try {
+            apiService = ApiConfig.getApiService(getSession().first().token)
+            val response = apiService.getStoriesWithLocation()
+            val story = response.listStory
+
+            emit(Result.Success(story))
+        } catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+            val errorMessage = errorBody.message
+
+            emit(Result.Error(errorMessage.toString()))
+        }
+    }
+
     companion object {
         @Volatile
         private var instance: UserRepository? = null
