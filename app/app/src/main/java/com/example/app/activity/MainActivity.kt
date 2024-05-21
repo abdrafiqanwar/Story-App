@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app.R
+import com.example.app.adapter.LoadingStateAdapter
 import com.example.app.adapter.StoryAdapter
 import com.example.app.data.response.ListStoryItem
 import com.example.app.databinding.ActivityMainBinding
@@ -51,6 +52,12 @@ class MainActivity : AppCompatActivity() {
         binding.rvStory.layoutManager = LinearLayoutManager(this)
         val adapter = StoryAdapter()
         binding.rvStory.adapter = adapter
+
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
 
         viewModel.getAllStories.observe(this) {
             adapter.submitData(lifecycle, it)
