@@ -66,4 +66,6 @@ dependencies {
     implementation(libs.glide)
 
     implementation(libs.androidx.exifinterface)
+
+    implementation(libs.androidx.paging.runtime.ktx)
 }

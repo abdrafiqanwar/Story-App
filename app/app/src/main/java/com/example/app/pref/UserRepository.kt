@@ -2,6 +2,11 @@ package com.example.app.pref
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
+import com.example.app.adapter.PagingSource
 import com.example.app.data.response.ErrorResponse
 import com.example.app.data.response.ListStoryItem
 import com.example.app.data.response.LoginResult
@@ -72,22 +77,33 @@ class UserRepository private constructor(
         userPreference.logout()
     }
 
-    fun getAllStories(): LiveData<Result<List<ListStoryItem>>> = liveData {
-        emit(Result.Loading)
+//    fun getAllStories(): LiveData<Result<List<ListStoryItem>>> = liveData {
+//        emit(Result.Loading)
+//
+//        try {
+//            apiService = ApiConfig.getApiService(getSession().first().token)
+//            val response = apiService.getStories()
+//            val story = response.listStory
+//
+//            emit(Result.Success(story))
+//        } catch (e: HttpException) {
+//            val jsonInString = e.response()?.errorBody()?.string()
+//            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+//            val errorMessage = errorBody.message
+//
+//            emit(Result.Error(errorMessage.toString()))
+//        }
+//    }
 
-        try {
-            apiService = ApiConfig.getApiService(getSession().first().token)
-            val response = apiService.getStories()
-            val story = response.listStory
-
-            emit(Result.Success(story))
-        } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
-            val errorMessage = errorBody.message
-
-            emit(Result.Error(errorMessage.toString()))
-        }
+    fun getAllStories(): LiveData<PagingData<ListStoryItem>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                PagingSource(apiService)
+            }
+        ).liveData
     }
 
     fun uploadStory(description: String, photo: File?): LiveData<Result<UploadStoryResponse>> = liveData {

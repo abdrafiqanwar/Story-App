@@ -48,42 +48,50 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.getAllStories().observe(this){
-            if (it != null) {
-                when(it) {
-                    is Result.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-                    is Result.Success -> {
-                        binding.progressBar.visibility = View.GONE
+        binding.rvStory.layoutManager = LinearLayoutManager(this)
+        val adapter = StoryAdapter()
+        binding.rvStory.adapter = adapter
 
-                        val response = it.data
-
-                        binding.rvStory.layoutManager = LinearLayoutManager(this)
-                        val storyAdapter = StoryAdapter(response)
-                        binding.rvStory.adapter = storyAdapter
-
-                        storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
-                            override fun onItemClicked(data: ListStoryItem) {
-                                goToDetail(data)
-                            }
-                        })
-                    }
-                    is Result.Error -> {
-                        binding.progressBar.visibility = View.GONE
-
-                        AlertDialog.Builder(this).apply {
-                            setTitle(it.error)
-                            setPositiveButton("Ok") {dialog, which ->
-                                dialog.dismiss()
-                            }
-                            create()
-                            show()
-                        }
-                    }
-                }
-            }
+        viewModel.getAllStories.observe(this) {
+            adapter.submitData(lifecycle, it)
         }
+
+//        viewModel.getAllStories().observe(this){
+//            if (it != null) {
+//                when(it) {
+//                    is Result.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//                    is Result.Success -> {
+//                        binding.progressBar.visibility = View.GONE
+//
+//                        val response = it.data
+//
+//                        binding.rvStory.layoutManager = LinearLayoutManager(this)
+//                        val storyAdapter = StoryAdapter(response)
+//                        binding.rvStory.adapter = storyAdapter
+//
+//                        storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
+//                            override fun onItemClicked(data: ListStoryItem) {
+//                                goToDetail(data)
+//                            }
+//                        })
+//                    }
+//                    is Result.Error -> {
+//                        binding.progressBar.visibility = View.GONE
+//
+//                        AlertDialog.Builder(this).apply {
+//                            setTitle(it.error)
+//                            setPositiveButton("Ok") {dialog, which ->
+//                                dialog.dismiss()
+//                            }
+//                            create()
+//                            show()
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         binding.fab.setOnClickListener { startActivity(Intent(this, UploadStoryActivity::class.java)) }
     }
