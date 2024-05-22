@@ -79,12 +79,4 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.inline)
     testImplementation(libs.mockito.core)
-
-//    androidTestImplementation(libs.androidx.core.testing) //InstantTaskExecutorRule
-//    androidTestImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
-//
-//    testImplementation(libs.androidx.core.testing) // InstantTaskExecutorRule
-//    testImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
-//    testImplementation(libs.mockito.core)
-//    testImplementation(libs.mockito.inline)
 }

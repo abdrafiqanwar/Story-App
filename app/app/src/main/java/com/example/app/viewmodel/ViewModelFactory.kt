@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.app.di.Injection
 import com.example.app.pref.StoryRepository
-import com.example.app.pref.UserPreference
 import com.example.app.pref.UserRepository
 
 class ViewModelFactory(

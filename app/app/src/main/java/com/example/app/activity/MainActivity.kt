@@ -4,10 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
@@ -18,7 +16,6 @@ import com.example.app.adapter.LoadingStateAdapter
 import com.example.app.adapter.StoryAdapter
 import com.example.app.data.response.ListStoryItem
 import com.example.app.databinding.ActivityMainBinding
-import com.example.app.di.Result
 import com.example.app.viewmodel.MainViewModel
 import com.example.app.viewmodel.ViewModelFactory
 
@@ -68,43 +65,6 @@ class MainActivity : AppCompatActivity() {
                 goToDetail(data)
             }
         })
-
-//        viewModel.getAllStories().observe(this){
-//            if (it != null) {
-//                when(it) {
-//                    is Result.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//                    is Result.Success -> {
-//                        binding.progressBar.visibility = View.GONE
-//
-//                        val response = it.data
-//
-//                        binding.rvStory.layoutManager = LinearLayoutManager(this)
-//                        val storyAdapter = StoryAdapter(response)
-//                        binding.rvStory.adapter = storyAdapter
-//
-//                        storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
-//                            override fun onItemClicked(data: ListStoryItem) {
-//                                goToDetail(data)
-//                            }
-//                        })
-//                    }
-//                    is Result.Error -> {
-//                        binding.progressBar.visibility = View.GONE
-//
-//                        AlertDialog.Builder(this).apply {
-//                            setTitle(it.error)
-//                            setPositiveButton("Ok") {dialog, which ->
-//                                dialog.dismiss()
-//                            }
-//                            create()
-//                            show()
-//                        }
-//                    }
-//                }
-//            }
-//        }
 
         binding.fab.setOnClickListener { startActivity(Intent(this, UploadStoryActivity::class.java)) }
     }

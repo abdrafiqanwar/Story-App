@@ -14,7 +14,6 @@ import com.example.app.data.retrofit.ApiConfig
 import com.example.app.data.retrofit.ApiService
 import com.example.app.di.Result
 import com.example.app.di.reduceFileImage
-import com.google.android.gms.common.api.Api
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.first
 import okhttp3.MediaType.Companion.toMediaType

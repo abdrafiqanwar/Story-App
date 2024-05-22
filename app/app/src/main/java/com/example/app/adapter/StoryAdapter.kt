@@ -24,8 +24,6 @@ class StoryAdapter: PagingDataAdapter<ListStoryItem, StoryAdapter.ViewHolder>(DI
         return ViewHolder(binding)
     }
 
-//    override fun getItemCount(): Int = listStory.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = getItem(position)
         Glide.with(holder.itemView.context).load(data?.photoUrl).into(holder.binding.ivImage)

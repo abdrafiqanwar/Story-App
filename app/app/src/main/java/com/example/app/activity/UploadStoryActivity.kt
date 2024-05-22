@@ -26,7 +26,7 @@ class UploadStoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddStoryBinding
     private var currentImageUri: Uri? = null
-    private val viewModel by viewModels<UploadStoryViewModel>() {
+    private val viewModel by viewModels<UploadStoryViewModel> {
         ViewModelFactory.getInstance(this)
     }
 
