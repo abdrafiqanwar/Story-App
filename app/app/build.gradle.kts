@@ -6,6 +6,9 @@ plugins {
 }
 
 android {
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
     buildFeatures{
         viewBinding = true
     }
@@ -68,4 +71,20 @@ dependencies {
     implementation(libs.androidx.exifinterface)
 
     implementation(libs.androidx.paging.runtime.ktx)
+
+    androidTestImplementation(libs.androidx.core.testing)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockito.core)
+
+//    androidTestImplementation(libs.androidx.core.testing) //InstantTaskExecutorRule
+//    androidTestImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
+//
+//    testImplementation(libs.androidx.core.testing) // InstantTaskExecutorRule
+//    testImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
+//    testImplementation(libs.mockito.core)
+//    testImplementation(libs.mockito.inline)
 }
