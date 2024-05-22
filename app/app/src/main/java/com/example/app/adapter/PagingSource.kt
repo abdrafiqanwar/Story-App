@@ -3,9 +3,12 @@ package com.example.app.adapter
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.app.data.response.ListStoryItem
+import com.example.app.data.retrofit.ApiConfig
 import com.example.app.data.retrofit.ApiService
+import com.example.app.pref.UserPreference
+import kotlinx.coroutines.flow.first
 
-class PagingSource(private val apiService: ApiService) : PagingSource<Int, ListStoryItem> () {
+class PagingSource(private var apiService: ApiService, private val userPreference: UserPreference) : PagingSource<Int, ListStoryItem> () {
     override fun getRefreshKey(state: PagingState<Int, ListStoryItem>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
@@ -16,6 +19,7 @@ class PagingSource(private val apiService: ApiService) : PagingSource<Int, ListS
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ListStoryItem> {
         return try {
             val position = params.key ?: INITIAL_PAGE_INDEX
+            apiService = ApiConfig.getApiService(userPreference.getSession().first().token)
             val responseData = apiService.getStories(position, params.loadSize)
             LoadResult.Page(
                 data = responseData.listStory,

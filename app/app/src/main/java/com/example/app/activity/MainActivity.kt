@@ -63,6 +63,12 @@ class MainActivity : AppCompatActivity() {
             adapter.submitData(lifecycle, it)
         }
 
+        adapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: ListStoryItem) {
+                goToDetail(data)
+            }
+        })
+
 //        viewModel.getAllStories().observe(this){
 //            if (it != null) {
 //                when(it) {

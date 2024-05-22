@@ -95,60 +95,60 @@ class UserRepository private constructor(
 //        }
 //    }
 
-    fun getAllStories(): LiveData<PagingData<ListStoryItem>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 5
-            ),
-            pagingSourceFactory = {
-                PagingSource(apiService)
-            }
-        ).liveData
-    }
-
-    fun uploadStory(description: String, photo: File?): LiveData<Result<UploadStoryResponse>> = liveData {
-        emit(Result.Loading)
-
-        try {
-            val imageFile = reduceFileImage(photo!!)
-
-            val requestBody = description.toRequestBody("text/plain".toMediaType())
-            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-            val multipartBody = MultipartBody.Part.createFormData(
-                "photo",
-                imageFile.name,
-                requestImageFile
-            )
-
-            val response = apiService.uploadStory(requestBody, multipartBody)
-
-            emit(Result.Success(response))
-        } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
-            val errorMessage = errorBody.message
-
-            emit(Result.Error(errorMessage.toString()))
-        }
-    }
-
-    fun getStoriesWithLocation(): LiveData<Result<List<ListStoryItem>>> = liveData {
-        emit(Result.Loading)
-
-        try {
-            apiService = ApiConfig.getApiService(getSession().first().token)
-            val response = apiService.getStoriesWithLocation()
-            val story = response.listStory
-
-            emit(Result.Success(story))
-        } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
-            val errorMessage = errorBody.message
-
-            emit(Result.Error(errorMessage.toString()))
-        }
-    }
+//    fun getAllStories(): LiveData<PagingData<ListStoryItem>> {
+//        return Pager(
+//            config = PagingConfig(
+//                pageSize = 5
+//            ),
+//            pagingSourceFactory = {
+//                PagingSource(apiService)
+//            }
+//        ).liveData
+//    }
+//
+//    fun uploadStory(description: String, photo: File?): LiveData<Result<UploadStoryResponse>> = liveData {
+//        emit(Result.Loading)
+//
+//        try {
+//            val imageFile = reduceFileImage(photo!!)
+//
+//            val requestBody = description.toRequestBody("text/plain".toMediaType())
+//            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+//            val multipartBody = MultipartBody.Part.createFormData(
+//                "photo",
+//                imageFile.name,
+//                requestImageFile
+//            )
+//
+//            val response = apiService.uploadStory(requestBody, multipartBody)
+//
+//            emit(Result.Success(response))
+//        } catch (e: HttpException) {
+//            val jsonInString = e.response()?.errorBody()?.string()
+//            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+//            val errorMessage = errorBody.message
+//
+//            emit(Result.Error(errorMessage.toString()))
+//        }
+//    }
+//
+//    fun getStoriesWithLocation(): LiveData<Result<List<ListStoryItem>>> = liveData {
+//        emit(Result.Loading)
+//
+//        try {
+//            apiService = ApiConfig.getApiService(getSession().first().token)
+//            val response = apiService.getStoriesWithLocation()
+//            val story = response.listStory
+//
+//            emit(Result.Success(story))
+//        } catch (e: HttpException) {
+//            val jsonInString = e.response()?.errorBody()?.string()
+//            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+//            val errorMessage = errorBody.message
+//
+//            emit(Result.Error(errorMessage.toString()))
+//        }
+//    }
 
     companion object {
         @Volatile
