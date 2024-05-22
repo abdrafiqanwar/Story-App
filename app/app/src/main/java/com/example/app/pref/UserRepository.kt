@@ -30,6 +30,17 @@ class UserRepository private constructor(
     private var apiService: ApiService,
     private val userPreference: UserPreference
 ) {
+    suspend fun saveSession(user: UserModel) {
+        userPreference.saveSession(user)
+    }
+
+    fun getSession(): Flow<UserModel> {
+        return userPreference.getSession()
+    }
+
+    suspend fun logout() {
+        userPreference.logout()
+    }
 
     fun register(name: String, email: String, password: String): LiveData<Result<RegisterResponse>> = liveData {
         emit(Result.Loading)
@@ -63,18 +74,6 @@ class UserRepository private constructor(
 
             emit(Result.Error(errorMessage.toString()))
         }
-    }
-
-    suspend fun saveSession(user: UserModel) {
-        userPreference.saveSession(user)
-    }
-
-    fun getSession(): Flow<UserModel> {
-        return userPreference.getSession()
-    }
-
-    suspend fun logout() {
-        userPreference.logout()
     }
 
 //    fun getAllStories(): LiveData<Result<List<ListStoryItem>>> = liveData {
