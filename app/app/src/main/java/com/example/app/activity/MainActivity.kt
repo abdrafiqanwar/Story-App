@@ -60,22 +60,7 @@ class MainActivity : AppCompatActivity() {
             adapter.submitData(lifecycle, it)
         }
 
-        adapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: ListStoryItem) {
-                goToDetail(data)
-            }
-        })
-
         binding.fab.setOnClickListener { startActivity(Intent(this, UploadStoryActivity::class.java)) }
-    }
-
-    private fun goToDetail(data: ListStoryItem) {
-        val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra("data", data)
-
-        val optionsCompat: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(this)
-
-        startActivity(intent, optionsCompat.toBundle())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

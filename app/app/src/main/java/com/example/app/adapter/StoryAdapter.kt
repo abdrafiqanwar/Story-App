@@ -1,21 +1,20 @@
 package com.example.app.adapter
 
+import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.app.activity.DetailActivity
 import com.example.app.data.response.ListStoryItem
 import com.example.app.databinding.ItemStoryBinding
+import androidx.core.util.Pair
 
 class StoryAdapter: PagingDataAdapter<ListStoryItem, StoryAdapter.ViewHolder>(DIFF_CALLBACK) {
-
-    private lateinit var onItemClickCallback: OnItemClickCallback
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
 
     class ViewHolder(var binding: ItemStoryBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -31,9 +30,18 @@ class StoryAdapter: PagingDataAdapter<ListStoryItem, StoryAdapter.ViewHolder>(DI
         holder.binding.tvDesc.text = data?.description
 
         holder.itemView.setOnClickListener{
-            if (data != null) {
-                onItemClickCallback.onItemClicked(data)
-            }
+            val intent = Intent(holder.itemView.context, DetailActivity::class.java)
+            intent.putExtra("data", data)
+
+            val optionsCompat : ActivityOptionsCompat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    holder.itemView.context as Activity,
+                    Pair(holder.binding.ivImage, "image"),
+                    Pair(holder.binding.tvName, "name"),
+                    Pair(holder.binding.tvDesc, "desc"),
+                )
+
+            holder.itemView.context.startActivity(intent, optionsCompat.toBundle())
         }
     }
 
@@ -47,9 +55,5 @@ class StoryAdapter: PagingDataAdapter<ListStoryItem, StoryAdapter.ViewHolder>(DI
                 return oldItem.id == newItem.id
             }
         }
-    }
-
-    interface OnItemClickCallback {
-        fun onItemClicked(data: ListStoryItem)
     }
 }
